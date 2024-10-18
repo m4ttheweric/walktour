@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { Coords, Dims, ElementInfo } from '../utils/dom';
 import { getViewportScrollDims } from '../utils/viewport';
 
@@ -24,7 +25,7 @@ export function Mask(props: MaskOptions): JSX.Element {
     close,
     disableCloseOnClick,
     maskId,
-    maskFill
+    maskFill,
   } = props;
   const { width: containerWidth, height: containerHeight } =
     getViewportScrollDims(tourRoot);
@@ -48,20 +49,20 @@ export function Mask(props: MaskOptions): JSX.Element {
               L ${cutoutLeft}, ${containerHeight}
               L ${cutoutLeft}, ${cutoutTop + radius}
               Q ${cutoutLeft}, ${cutoutTop}, ${
-        cutoutLeft + radius
-      }, ${cutoutTop}
+                cutoutLeft + radius
+              }, ${cutoutTop}
               L ${cutoutRight - radius}, ${cutoutTop}
               Q ${cutoutRight}, ${cutoutTop}, ${cutoutRight}, ${
-        cutoutTop + radius
-      }
+                cutoutTop + radius
+              }
               L ${cutoutRight}, ${cutoutBottom - radius}
               Q ${cutoutRight}, ${cutoutBottom}, ${
-        cutoutRight - radius
-      }, ${cutoutBottom}
+                cutoutRight - radius
+              }, ${cutoutBottom}
               L ${cutoutLeft + radius}, ${cutoutBottom}
               Q ${cutoutLeft}, ${cutoutBottom}, ${cutoutLeft}, ${
-        cutoutBottom - radius
-      }
+                cutoutBottom - radius
+              }
               L ${cutoutLeft}, ${containerHeight}
               L ${containerWidth}, ${containerHeight}
               L ${containerWidth}, 0`;
@@ -82,7 +83,7 @@ export function Mask(props: MaskOptions): JSX.Element {
   const svgStyle: React.CSSProperties = {
     height: containerHeight,
     width: containerWidth,
-    pointerEvents: disableMaskInteraction ? 'auto' : 'none'
+    pointerEvents: disableMaskInteraction ? 'auto' : 'none',
   };
 
   return (
@@ -103,7 +104,7 @@ export function Mask(props: MaskOptions): JSX.Element {
         height={containerHeight}
         fill={maskFill ?? 'black'}
         fillOpacity={0.3}
-        pointerEvents='auto'
+        pointerEvents="auto"
         clipPath={targetInfo ? `url(#${pathId})` : undefined}
       />
     </svg>

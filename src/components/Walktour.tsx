@@ -1,33 +1,34 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Mask, MaskOptions } from './Mask';
-import { Tooltip } from './Tooltip';
-import {
-  CardinalOrientation,
-  OrientationCoords,
-  getTargetPosition,
-  getTooltipPosition
-} from '../utils/positioning';
+
 import {
   Coords,
-  getNearestScrollAncestor,
-  getValidPortalRoot,
   Dims,
   getElementDims,
-  getTargetInfo
+  getNearestScrollAncestor,
+  getTargetInfo,
+  getValidPortalRoot,
 } from '../utils/dom';
-import { scrollToDestination } from '../utils/scroll';
 import { centerViewportAroundElements } from '../utils/offset';
+import {
+  CardinalOrientation,
+  getTargetPosition,
+  getTooltipPosition,
+  OrientationCoords,
+} from '../utils/positioning';
+import { scrollToDestination } from '../utils/scroll';
 import {
   debounce,
   getIdString,
-  shouldUpdate,
   setFocusTrap,
+  setNextOnTargetClick,
   setTargetWatcher,
   setTourUpdateListener,
   shouldScroll,
-  setNextOnTargetClick
+  shouldUpdate,
 } from '../utils/tour';
+import { Mask, MaskOptions } from './Mask';
+import { Tooltip } from './Tooltip';
 
 export interface WalktourLogic {
   next: (fromTarget?: boolean) => void;
@@ -112,7 +113,7 @@ const walktourDefaultProps: Partial<WalktourProps> = {
   disableCloseOnClick: false,
   zIndex: 9999,
   renderTolerance: 2,
-  updateInterval: 500
+  updateInterval: 500,
 };
 
 const basePortalString: string = 'walktour-portal';
@@ -146,7 +147,7 @@ export const Walktour = (props: WalktourProps) => {
   const options: WalktourOptions & WalktourProps & Step = {
     ...walktourDefaultProps,
     ...props,
-    ...currentStepContent
+    ...currentStepContent,
   };
 
   const {
@@ -183,7 +184,7 @@ export const Walktour = (props: WalktourProps) => {
     allowForeignTarget,
     nextOnTargetClick,
     validateNextOnTargetClick,
-    renderMask
+    renderMask,
   } = options;
 
   React.useEffect(() => {
@@ -222,8 +223,8 @@ export const Walktour = (props: WalktourProps) => {
             tooltipPosition,
             targetPosition,
             currentStepIndex,
-            targetSize
-          }
+            targetSize,
+          },
         }
       );
     }
@@ -238,7 +239,7 @@ export const Walktour = (props: WalktourProps) => {
     currentStepContent,
     tourOpen,
     tourRoot,
-    tooltip.current
+    tooltip.current,
   ]);
 
   // update tooltip and target position in state
@@ -277,7 +278,7 @@ export const Walktour = (props: WalktourProps) => {
       getPositionFromCandidates,
       disableAutoScroll,
       allowForeignTarget,
-      selector
+      selector,
     });
 
     setTarget(currentTarget);
@@ -301,7 +302,7 @@ export const Walktour = (props: WalktourProps) => {
         root,
         target: currentTarget,
         tooltip: tooltipContainer,
-        tooltipPosition: tooltipPosition.coords
+        tooltipPosition: tooltipPosition.coords,
       })
     ) {
       scrollToDestination(
@@ -336,7 +337,7 @@ export const Walktour = (props: WalktourProps) => {
             getPositionFromCandidates,
             orientationPreferences,
             padding: smartPadding,
-            tooltipSeparation
+            tooltipSeparation,
           })
         ) {
           updateTour();
@@ -346,7 +347,7 @@ export const Walktour = (props: WalktourProps) => {
       const cleanupUpdateListener = setTourUpdateListener({
         update: debounce(conditionalUpdate),
         customSetListener: setUpdateListener,
-        customRemoveListener: removeUpdateListener
+        customRemoveListener: removeUpdateListener,
       });
       cleanupRefs.current.push(cleanupUpdateListener);
 
@@ -397,16 +398,16 @@ export const Walktour = (props: WalktourProps) => {
     stepContent: { ...options }, //pass options in as well to expose any defaults that aren't specified
     stepIndex: currentStepIndex,
     allSteps: steps,
-    tooltipPosition
+    tooltipPosition,
   };
 
   const tourLogic: WalktourLogic = {
     ...baseLogic,
     ...(customNextFunc && {
-      next: (fromTarget?: boolean) => customNextFunc(baseLogic, fromTarget)
+      next: (fromTarget?: boolean) => customNextFunc(baseLogic, fromTarget),
     }),
     ...(customPrevFunc && { prev: () => customPrevFunc(baseLogic) }),
-    ...(customCloseFunc && { close: () => customCloseFunc(baseLogic) })
+    ...(customCloseFunc && { close: () => customCloseFunc(baseLogic) }),
   };
 
   const keyPressHandler = (event: React.KeyboardEvent) => {
@@ -443,7 +444,7 @@ export const Walktour = (props: WalktourProps) => {
     left: 0,
     zIndex: zIndex,
     visibility: tooltipPosition ? 'visible' : 'hidden',
-    pointerEvents: 'none'
+    pointerEvents: 'none',
   };
 
   const tooltipContainerStyle: React.CSSProperties = {
@@ -451,7 +452,7 @@ export const Walktour = (props: WalktourProps) => {
     top: tooltipPosition?.coords?.y,
     left: tooltipPosition?.coords?.x,
     transition: transition,
-    pointerEvents: 'auto'
+    pointerEvents: 'auto',
   };
 
   const MaskTag = renderMask ? renderMask : Mask;

@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 
 //import { Walktour, WalktourLogic } from 'walktour'; // test with npm pack
 import { Walktour, WalktourLogic } from '../src/components/Walktour';
-import { playgroundSetup, secondarySteps, primaryIntoSecondary } from './setup';
+import { playgroundSetup, primaryIntoSecondary, secondarySteps } from './setup';
 
 const App = () => {
   const [tourOpen, setTourOpen] = React.useState<boolean>(true);
@@ -12,7 +12,7 @@ const App = () => {
     <>
       {playgroundSetup({
         buttonText: 'Toggle Tour',
-        onButtonClick: () => setTourOpen(!tourOpen)
+        onButtonClick: () => setTourOpen(!tourOpen),
       })}
       <Walktour
         steps={secondarySteps()}
